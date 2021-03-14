@@ -13,12 +13,21 @@ La versió paral·lela ha de donar el mateix resultat que la seqüencial. (Cal c
 Cal executar el codi, forçant la creació de threads de 2 fins a 16.
 
 # Compilación
+## Secuencial
 ```bash
-cc -O3 kmeanCPM.c -o kmeanCPM
+cc -O3 kmeanCPM.c -o kmeanCPM_secuencial
+```
+## Paralelo
+```
+cc -fopenmp kmeanCPM.c -p kmeanCPM_parallel
 ```
 
 # Ejecución
-## En GAT
+## En local
 ```bash
-srun -p gat time ./kmeanCPM 
+time ./kmeanCPM_secuencial > secuencial.loc 2>&1 &
+```
+## En los nodos 
+```bash
+srun -p gat time ./kmeanCPM_secuencial > secuencial.gat 2>&1 & # En los nodos de GAT en este caso
 ```
