@@ -15,17 +15,17 @@ Cal executar el codi, forçant la creació de threads de 2 fins a 16.
 # Compilación
 ## Secuencial
 ```bash
-cc -O3 kmeanCPM.c -o kmeanCPM_secuencial
+cc -O3 kmeanCPM_secuencial.c -o kmeanCPM_secuencial
 ```
 ## Paralelo
 ```
-cc -fopenmp kmeanCPM.c -p kmeanCPM_parallel
+cc -fopenmp -O3 kmeanCPM_paralelo.c -o kmeanCPM_paralelo
 ```
 
 # Ejecución
 ## En local
 ```bash
-time ./kmeanCPM_secuencial > secuencial.loc 2>&1 &
+(time ./kmeanCPM_secuencial) > secuencial.local 2>&1 &
 ```
 ## En los nodos 
 ```bash
