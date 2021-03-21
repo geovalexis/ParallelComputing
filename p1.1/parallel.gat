@@ -1,0 +1,4 @@
+srun: Force Terminated job 416
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-gat: error: *** STEP 416.0 ON gat CANCELLED AT 2021-03-14T18:11:59 ***
+srun: error: gat: task 0: Terminated

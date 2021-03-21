@@ -17,11 +17,11 @@ void kmean(int fN, int fK, long fV[], long fR[], int fA[])
 
 	do
 	{
+		#pragma omp parallel for 
 		for (i = 0; i < fN; i++)
 		{
 			min = 0;
 			dif = abs(fV[i] - fR[0]);
-			#pragma omp parallel for shared(dif)
 			for (j = 1; j < fK; j++)
 				if (abs(fV[i] - fR[j]) < dif)
 				{
@@ -30,17 +30,18 @@ void kmean(int fN, int fK, long fV[], long fR[], int fA[])
 				}
 			fD[i] = min;
 		}
-
+		#pragma omp parallel for	
 		for (i = 0; i < fK; i++)
 			fS[i] = fA[i] = 0;
 
 		for (i = 0; i < fN; i++)
-		{
+		{	
 			fS[fD[i]] += fV[i];
 			fA[fD[i]]++;
 		}
 
 		dif = 0;
+		#pragma omp parallel for reduction(+:dif)
 		for (i = 0; i < fK; i++)
 		{
 			t = fR[i];
@@ -105,6 +106,7 @@ int main()
 		V[i] = (rand() % rand()) / N;
 
 	// primers candidats
+	#pragma omp parallel for 
 	for (i = 0; i < G; i++)
 		R[i] = V[i];
 
