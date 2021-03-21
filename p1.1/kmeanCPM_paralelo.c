@@ -17,7 +17,7 @@ void kmean(int fN, int fK, long fV[], long fR[], int fA[])
 
 	do
 	{
-		#pragma omp parallel for 
+		#pragma omp parallel for schedule(dynamic, 50000)
 		for (i = 0; i < fN; i++)
 		{
 			min = 0;
@@ -30,7 +30,7 @@ void kmean(int fN, int fK, long fV[], long fR[], int fA[])
 				}
 			fD[i] = min;
 		}
-		#pragma omp parallel for	
+
 		for (i = 0; i < fK; i++)
 			fS[i] = fA[i] = 0;
 
@@ -41,7 +41,6 @@ void kmean(int fN, int fK, long fV[], long fR[], int fA[])
 		}
 
 		dif = 0;
-		#pragma omp parallel for reduction(+:dif)
 		for (i = 0; i < fK; i++)
 		{
 			t = fR[i];
@@ -106,7 +105,6 @@ int main()
 		V[i] = (rand() % rand()) / N;
 
 	// primers candidats
-	#pragma omp parallel for 
 	for (i = 0; i < G; i++)
 		R[i] = V[i];
 
