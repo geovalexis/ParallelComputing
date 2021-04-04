@@ -13,7 +13,7 @@ double cost (int nn, double vx[], double vy[], double t0, double t1)
  {
   int i;
   double val,sum=0.0;
-  #pragma omp parallel for reduction (+:sum) private (val)
+  #pragma omp parallel for reduction (+:sum) private (i,val)
   for(i=0;i<nn;i++)
    {
     val = t0 + t1*vx[i] - vy[i];
@@ -37,7 +37,7 @@ int gradientDescent (int nn, double vx[], double vy[], double alpha, double *the
   do
    {
     z0 = z1 = 0.0;
-    #pragma omp parallel for reduction (+:z0,z1) private (val)
+    #pragma omp parallel for reduction (+:z0,z1) private (i,val)
     for(i=0;i<nn;i++)
      {
       val = t0 + t1*vx[i] - vy[i];
