@@ -23,3 +23,15 @@ mpicc -O3 kmeanCPM_paralelo.c -o kmeanCPM_paralelo
 ```bash
 salloc -p pop -N 8 -n 32 time mpirun -n 32 --npernode 4 --oversubscribe kmeanCPM_paralelo
 ```
+Explicación:
+```
+salloc
+    * -p pop: reservar máquina llamada "pop"
+    * -N 8: reservar 8 nodos
+    * -n 32: reservar 32 procesadores (threads/cores)
+
+mpirun
+    * -n 32: ejecutar 32 procesos MPI
+    * --npernode 4: numero de procesos por nodo
+    * --oversubcribe: asignar mas de un proceso por nodo (Por si el parámetro --npernode da problemas)
+``` 
