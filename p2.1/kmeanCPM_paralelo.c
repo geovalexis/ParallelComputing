@@ -30,12 +30,29 @@ void kmean(int fN, int fK, long fV[], long fR[], int fA[])
 	long fS[G];
 	int fD[N];
 	int elements_per_proc = N/p;
-	int send_buffer_fD[elements_per_proc];
+	int ini_proc = el_meu_rank*elements_per_proc;
+	int end_proc = (el_meu_rank+1)*elements_per_proc;
+	/* En caso de que N no sea divisible por el nº de procesos, asignar el resto al ultimo proceso */
+	
+	int recvcounts[p],	displs[p];
+	for (int x = 0; x < p; x++) {
+		recvcounts[x]=elements_per_proc;
+		displs[x]=x*elements_per_proc;
+	}
+
+	if ((N % p) != 0) {
+		if (el_meu_rank==p-1) {
+			end_proc = N;
+		}
+		recvcounts[p-1]=elements_per_proc + N%p;
+	}
+
+	int send_buffer_fD[end_proc-ini_proc];
 
 	do
 	{	
 		int cont = 0;
-		for (i = el_meu_rank*elements_per_proc; i < (el_meu_rank+1)*elements_per_proc; i++)
+		for (i = ini_proc ; i < end_proc; i++)
 		{
 			min = 0;
 			dif = abs(fV[i] - fR[0]);
@@ -48,8 +65,8 @@ void kmean(int fN, int fK, long fV[], long fR[], int fA[])
 			send_buffer_fD[cont] = min;
 			cont++;
 		}
-
-		MPI_Allgather(send_buffer_fD,elements_per_proc,MPI_INT, fD, elements_per_proc, MPI_INT, MPI_COMM_WORLD);
+		
+		MPI_Allgatherv(send_buffer_fD,end_proc-ini_proc,MPI_INT, fD, recvcounts, displs, MPI_INT, MPI_COMM_WORLD);
 
 		for (i = 0; i < fK; i++)
 			fS[i] = fA[i] = 0;
@@ -137,9 +154,6 @@ int main(int num_args, char* args[ ])
 		for (i = 0; i < G; i++)
 			R[i] = V[i];
    }
-
-	// MPI_Scatter(V, elements_per_proc, MPI_LONG, receive_buffer,
-	// elements_per_proc, MPI_LONG, 0, MPI_COMM_WORLD);
 	
 	MPI_Bcast(R, G, MPI_LONG, 0, MPI_COMM_WORLD);
 	MPI_Bcast(V, N, MPI_LONG, 0, MPI_COMM_WORLD);	
