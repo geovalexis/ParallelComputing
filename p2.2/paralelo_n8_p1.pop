@@ -1,0 +1,8 @@
+salloc: Pending job allocation 9479
+salloc: job 9479 queued and waiting for resources
+salloc: job 9479 has been allocated resources
+salloc: Granted job allocation 9479
+(2496) Theta; -54.825, 27.418  cost: 549.549
+0.04user 0.03system 0:23.88elapsed 0%CPU (0avgtext+0avgdata 14672maxresident)k
+0inputs+16outputs (0major+2161minor)pagefaults 0swaps
+salloc: Relinquishing job allocation 9479
