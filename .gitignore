@@ -1,3 +1,7 @@
+
+*.docx
+*.tgz
+
 # Prerequisites
 *.d
 

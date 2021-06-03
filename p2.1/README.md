@@ -21,7 +21,7 @@ mpicc -O3 kmeanCPM_paralelo.c -o kmeanCPM_paralelo
 
 ## En los nodos 
 ```bash
-salloc -p pop -N 8 -n 32 time mpirun -n 32 --npernode 4 --oversubscribe kmeanCPM_paralelo
+salloc -p pop -N 8 -n 32 time mpirun -n 32 --npernode 4 --oversubscribe kmeanCPM_paralelo > paralelo.pop 2>&1 &
 ```
 Explicación:
 ```
